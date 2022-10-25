@@ -22,6 +22,8 @@ namespace StudentManager.Backend.Entiries
             StudentsSkills = new List<StudentsSkills>();
         }
 
+        public string Gender { get; set; }
+
         public override string ToString()
         {
             return $"{Name} {Age}";
