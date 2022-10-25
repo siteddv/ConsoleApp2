@@ -4,7 +4,7 @@ using System.Diagnostics;
 
 namespace StudentManager.WebApp.Controllers
 {
-    public class HomeController : Microsoft.AspNetCore.Mvc.Controller
+    public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
 
