@@ -6,7 +6,7 @@ namespace StudentManager.Backend.Entities
     {
         public int StudentId { get; set; }
         public int SkillId { get; set; }
-        public Student Student { get; set; }
-        public Skill Skill { get; set; }
+        public virtual Student Student { get; set; }
+        public virtual Skill Skill { get; set; }
     }
 }

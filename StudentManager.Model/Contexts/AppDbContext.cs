@@ -7,6 +7,10 @@ namespace StudentManager.Backend.Contexts
 {
     public class AppDbContext : DbContext
     {
+        public AppDbContext(DbContextOptions ctx) : base(ctx)
+        {
+            
+        }
         public DbSet<Student> Students { get; set; }
         public DbSet<Skill> Skills { get; set; }
 

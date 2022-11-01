@@ -14,7 +14,7 @@ namespace StudentManager.Backend.Entities
             Level = level;
         }
         public SkillLevel Level { get; set; }
-        public List<StudentsSkills> StudentsSkills { get; set; }
+        public virtual List<StudentsSkills> StudentsSkills { get; set; }
         public override string ToString()
         {
             return $"{Id} {Name} {Level}";

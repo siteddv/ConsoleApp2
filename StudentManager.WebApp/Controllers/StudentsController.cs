@@ -30,6 +30,7 @@ namespace StudentManager.WebApp.Controllers
 
             var student = await _context.Students
                 .FirstOrDefaultAsync(m => m.Id == id);
+            var skills = student.GetSkills();
             if (student == null)
             {
                 return NotFound();
