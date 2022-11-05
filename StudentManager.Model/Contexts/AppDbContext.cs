@@ -7,7 +7,7 @@ namespace StudentManager.Backend.Contexts
 {
     public class AppDbContext : DbContext
     {
-        public AppDbContext(DbContextOptions ctx) : base(ctx)
+        public AppDbContext(DbContextOptions<AppDbContext> ctx) : base(ctx)
         {
             
         }

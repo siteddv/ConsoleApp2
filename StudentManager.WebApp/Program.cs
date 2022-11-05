@@ -1,11 +1,20 @@
 using Microsoft.EntityFrameworkCore;
 using StudentManager.Backend.Contexts;
+using Microsoft.AspNetCore.Identity;
+using StudentManager.WebApp.Areas.Identity.Data;
 
 var builder = WebApplication.CreateBuilder(args);
+var connectionString = builder.Configuration.GetConnectionString("IdentityContextConnection") ?? throw new InvalidOperationException("Connection string 'IdentityContextConnection' not found.");
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<AppDbContext>(ctx => ctx.UseLazyLoadingProxies());
+builder.Services.AddRazorPages();
+
+builder.Services.AddDbContext<IdentityContext>();
+builder.Services.AddIdentity<Mozgoeb, IdentityRole>()
+            .AddEntityFrameworkStores<IdentityContext>()
+            .AddDefaultTokenProviders();
 
 var app = builder.Build();
 
@@ -23,11 +32,13 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+app.UseAuthentication();;
 
 app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+app.MapRazorPages();
 
 app.Run();
