@@ -14,6 +14,7 @@ namespace StudentManager.Backend.Contexts
         public DbSet<Student> Students { get; set; }
         public DbSet<Skill> Skills { get; set; }
         public DbSet<ShortenUser> Users { get; set; }
+        public DbSet<LogModel> Logs { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) 
         {

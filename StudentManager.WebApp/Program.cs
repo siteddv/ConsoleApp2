@@ -2,14 +2,24 @@ using Microsoft.EntityFrameworkCore;
 using StudentManager.Backend.Contexts;
 using Microsoft.AspNetCore.Identity;
 using StudentManager.WebApp.Areas.Identity.Data;
+using StudentManager.WebApp.Controllers;
+using StudentManager.WebApp.Models;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
+
 var connectionString = builder.Configuration.GetConnectionString("IdentityContextConnection") ?? throw new InvalidOperationException("Connection string 'IdentityContextConnection' not found.");
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddTransient<ShortenUserController>();
 builder.Services.AddDbContext<AppDbContext>(ctx => ctx.UseLazyLoadingProxies());
 builder.Services.AddRazorPages();
+builder.Services.AddSingleton<ILoggerProvider, DbLoggerProvider>();
+builder.Logging.Configure(options => builder.Configuration.GetSection("Logging").GetSection("Database").GetSection("Options").Bind(options));
+
 
 builder.Services.AddDbContext<IdentityContext>(options => options.UseSqlServer(connectionString));
 builder.Services.AddIdentity<Mozgoeb, IdentityRole>()

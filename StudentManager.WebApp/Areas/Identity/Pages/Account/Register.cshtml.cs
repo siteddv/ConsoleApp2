@@ -20,6 +20,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using StudentManager.WebApp.Areas.Identity.Data;
+using StudentManager.WebApp.Controllers;
 
 namespace StudentManager.WebApp.Areas.Identity.Pages.Account
 {
@@ -30,18 +31,21 @@ namespace StudentManager.WebApp.Areas.Identity.Pages.Account
         private readonly IUserStore<Mozgoeb> _userStore;
         private readonly IUserEmailStore<Mozgoeb> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
+        private readonly ShortenUserController _userController;
 
         public RegisterModel(
             UserManager<Mozgoeb> userManager,
             IUserStore<Mozgoeb> userStore,
             SignInManager<Mozgoeb> signInManager,
-            ILogger<RegisterModel> logger)
+            ILogger<RegisterModel> logger,
+            ShortenUserController userController)
         {
             _userManager = userManager;
             _userStore = userStore;
             _emailStore = GetEmailStore();
             _signInManager = signInManager;
             _logger = logger;
+            _userController = userController;
         }
 
         /// <summary>
@@ -116,7 +120,7 @@ namespace StudentManager.WebApp.Areas.Identity.Pages.Account
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
                 var result = await _userManager.CreateAsync(user, Input.Password);
-
+                _userController.AddUser(user);
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");

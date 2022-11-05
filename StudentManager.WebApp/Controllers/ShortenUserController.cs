@@ -17,6 +17,8 @@ namespace StudentManager.WebApp.Controllers
         {
             var shortenUser = MapUser(user);
             _dbContext.Users.Add(shortenUser);
+
+            _dbContext.SaveChanges();
         }
 
         private ShortenUser MapUser(Mozgoeb mozgoeb)
