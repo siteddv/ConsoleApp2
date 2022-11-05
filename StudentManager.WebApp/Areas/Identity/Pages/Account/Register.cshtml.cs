@@ -35,15 +35,13 @@ namespace StudentManager.WebApp.Areas.Identity.Pages.Account
             UserManager<Mozgoeb> userManager,
             IUserStore<Mozgoeb> userStore,
             SignInManager<Mozgoeb> signInManager,
-            ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            ILogger<RegisterModel> logger)
         {
             _userManager = userManager;
             _userStore = userStore;
             _emailStore = GetEmailStore();
             _signInManager = signInManager;
             _logger = logger;
-            _emailSender = emailSender;
         }
 
         /// <summary>
