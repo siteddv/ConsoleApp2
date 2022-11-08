@@ -18,6 +18,10 @@ builder.Services.AddTransient<ShortenUserController>();
 builder.Services.AddDbContext<AppDbContext>(ctx => ctx.UseLazyLoadingProxies());
 builder.Services.AddRazorPages();
 
+AddDbLogger(builder.Logging, options =>
+{
+    builder.Configuration.GetSection("Logging").GetSection("Database").GetSection("Options").Bind(options);
+});
 
 builder.Services.AddDbContext<IdentityContext>(options => options.UseSqlServer(connectionString));
 builder.Services.AddIdentity<Mozgoeb, IdentityRole>()
@@ -50,3 +54,11 @@ app.MapControllerRoute(
 app.MapRazorPages();
 
 app.Run();
+
+
+static ILoggingBuilder AddDbLogger(ILoggingBuilder builder, Action<DbLoggerOptions> configure)
+{
+    builder.Services.AddSingleton<ILoggerProvider, DbLoggerProvider>();
+    builder.Services.Configure(configure);
+    return builder;
+}

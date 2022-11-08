@@ -13,17 +13,17 @@ namespace StudentManager.WebApp.Models
         /// Instance of <see cref="DbLoggerProvider" />.
         /// </summary>
         private readonly DbLoggerProvider _dbLoggerProvider;
-        private readonly AppDbContext _context;
+        private readonly IServiceScopeFactory _scopeFactory;
 
         /// <summary>
         /// Creates a new instance of <see cref="FileLogger" />.
         /// </summary>
         /// <param name="fileLoggerProvider">Instance of <see cref="FileLoggerProvider" />.</param>
         public DbLogger([NotNull] DbLoggerProvider dbLoggerProvider,
-            AppDbContext context)
+            IServiceScopeFactory context)
         {
             _dbLoggerProvider = dbLoggerProvider;
-            _context = context;
+            _scopeFactory = context;
         }
 
         public IDisposable BeginScope<TState>(TState state)
@@ -58,8 +58,13 @@ namespace StudentManager.WebApp.Models
                 // Don't log the entry if it's not enabled.
                 return;
             }
+            using var scope = _scopeFactory.CreateScope();
 
-            _context.Logs.Add(new LogModel()
+            // Get a Dbcontext from the scope
+            var context = scope.ServiceProvider
+                .GetRequiredService<AppDbContext>();
+
+                context.Logs.Add(new LogModel()
             {
                 Action = null,
                 Controller = null,
@@ -67,6 +72,8 @@ namespace StudentManager.WebApp.Models
                 Message = formatter(state, exception),
                 StackTrace = exception.StackTrace
             });
+
+            context.SaveChanges();
         }
     }
 }

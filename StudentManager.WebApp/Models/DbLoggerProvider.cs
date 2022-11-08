@@ -7,13 +7,13 @@ namespace StudentManager.WebApp.Models
     public class DbLoggerProvider : ILoggerProvider
     {
         public readonly DbLoggerOptions Options;
-        private readonly AppDbContext _context;
+        private readonly IServiceScopeFactory _scopeFactory;
 
         public DbLoggerProvider(IOptions<DbLoggerOptions> _options,
-            AppDbContext context)
+            IServiceScopeFactory scopeFactory)
         {
             Options = _options.Value; // Stores all the options.
-            _context = context;
+            _scopeFactory = scopeFactory;
         }
 
         /// <summary>
@@ -23,7 +23,7 @@ namespace StudentManager.WebApp.Models
         /// <returns></returns>
         public ILogger CreateLogger(string categoryName)
         {
-            return new DbLogger(this, _context);
+            return new DbLogger(this, _scopeFactory);
         }
 
         public void Dispose()

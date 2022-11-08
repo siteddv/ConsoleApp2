@@ -8,19 +8,15 @@ namespace StudentManager.WebApp.Controllers
     public class StudentsController : Controller
     {
         private readonly AppDbContext _context;
-        private readonly ILogger _logger;
 
-        public StudentsController(AppDbContext context,
-            ILogger logger)
+        public StudentsController(AppDbContext context)
         {
             _context = context;
-            _logger = logger;
         }
 
         // GET: Students
         public async Task<IActionResult> Index()
         {
-            _logger.LogInformation("Students info is loaded");
             return View(await _context.Students.ToListAsync());
         }
 
