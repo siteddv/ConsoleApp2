@@ -17,8 +17,6 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddTransient<ShortenUserController>();
 builder.Services.AddDbContext<AppDbContext>(ctx => ctx.UseLazyLoadingProxies());
 builder.Services.AddRazorPages();
-builder.Services.AddSingleton<ILoggerProvider, DbLoggerProvider>();
-builder.Logging.Configure(options => builder.Configuration.GetSection("Logging").GetSection("Database").GetSection("Options").Bind(options));
 
 
 builder.Services.AddDbContext<IdentityContext>(options => options.UseSqlServer(connectionString));
