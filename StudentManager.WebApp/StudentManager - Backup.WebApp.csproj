@@ -28,7 +28,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\StudentManager.Data\StudentManager.Data.csproj" />
-    <ProjectReference Include="..\StudentManager.Infrastucture\StudentManager.Infrastucture.csproj" />
     <ProjectReference Include="..\StudentManager.Model\StudentManager.Model.csproj" />
   </ItemGroup>
 

@@ -1,4 +1,4 @@
-﻿namespace StudentManager.Backend.Entities
+﻿namespace StudentManager.Backend.Indentity
 {
     public class ShortenUser
     {

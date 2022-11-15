@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using StudentManager.Backend.Entiries;
 using StudentManager.Backend.Entities;
+using StudentManager.Backend.Indentity;
 
 namespace StudentManager.Backend.Contexts
 {

@@ -1,5 +1,6 @@
 ﻿using StudentManager.Backend.Contexts;
-using StudentManager.Backend.Entities;
+using StudentManager.Backend.Indentity;
+using StudentManager.WebApp.Areas.Identity;
 using StudentManager.WebApp.Areas.Identity.Data;
 
 namespace StudentManager.WebApp.Controllers

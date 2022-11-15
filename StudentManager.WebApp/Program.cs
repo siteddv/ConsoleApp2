@@ -1,9 +1,11 @@
 using Microsoft.EntityFrameworkCore;
 using StudentManager.Backend.Contexts;
 using Microsoft.AspNetCore.Identity;
-using StudentManager.WebApp.Areas.Identity.Data;
 using StudentManager.WebApp.Controllers;
 using StudentManager.WebApp.Models;
+using StudentManager.Backend.Indentity;
+using StudentManager.WebApp.Areas.Identity.Data;
+using StudentManager.WebApp.Areas.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 

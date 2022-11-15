@@ -2,16 +2,19 @@
 using Microsoft.EntityFrameworkCore;
 using StudentManager.Backend.Contexts;
 using StudentManager.Backend.Entiries;
+using StudentManager.Infrastucture.Managers;
 
 namespace StudentManager.WebApp.Controllers
 {
     public class StudentsController : Controller
     {
         private readonly AppDbContext _context;
+        private readonly StudentsManager _studentsManager;
 
-        public StudentsController(AppDbContext context)
+        public StudentsController(AppDbContext context, StudentsManager studentsManager)
         {
             _context = context;
+            _studentsManager = studentsManager;
         }
 
         // GET: Students
@@ -23,14 +26,7 @@ namespace StudentManager.WebApp.Controllers
         // GET: Students/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Students == null)
-            {
-                return NotFound();
-            }
-
-            var student = await _context.Students
-                .FirstOrDefaultAsync(m => m.Id == id);
-            var skills = student.GetSkills();
+            var student = _studentsManager.GetStudentDetails(id);
             if (student == null)
             {
                 return NotFound();
