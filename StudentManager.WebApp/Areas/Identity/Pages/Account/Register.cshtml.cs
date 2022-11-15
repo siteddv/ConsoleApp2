@@ -29,19 +29,19 @@ namespace StudentManager.WebApp.Areas.Identity.Pages.Account
         private readonly UserManager<Mozgoeb> _userManager;
         private readonly IUserStore<Mozgoeb> _userStore;
         private readonly IUserEmailStore<Mozgoeb> _emailStore;
-        private readonly ILogger<RegisterModel> _logger;
+        private readonly IShortedUserController _shortedUserController;
 
         public RegisterModel(
             UserManager<Mozgoeb> userManager,
             IUserStore<Mozgoeb> userStore,
             SignInManager<Mozgoeb> signInManager,
-            ILogger<RegisterModel> logger)
+            IShortedUserController shortedUserController)
         {
             _userManager = userManager;
             _userStore = userStore;
             _emailStore = GetEmailStore();
             _signInManager = signInManager;
-            _logger = logger;
+            _shortedUserController = shortedUserController;
         }
 
         /// <summary>
@@ -119,7 +119,7 @@ namespace StudentManager.WebApp.Areas.Identity.Pages.Account
 
                 if (result.Succeeded)
                 {
-                    _logger.LogInformation("User created a new account with password.");
+                    _shortedUserController.AddUser(user);
 
                     var userId = await _userManager.GetUserIdAsync(user);
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);

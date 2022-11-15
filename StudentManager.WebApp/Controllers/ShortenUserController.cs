@@ -1,10 +1,11 @@
 ﻿using StudentManager.Backend.Contexts;
 using StudentManager.Backend.Entities;
+using StudentManager.WebApp.Areas;
 using StudentManager.WebApp.Areas.Identity.Data;
 
 namespace StudentManager.WebApp.Controllers
 {
-    public class ShortenUserController
+    public class ShortenUserController : IShortedUserController
     {
         private readonly AppDbContext _dbContext;
 
@@ -17,6 +18,8 @@ namespace StudentManager.WebApp.Controllers
         {
             var shortenUser = MapUser(user);
             _dbContext.Users.Add(shortenUser);
+
+            _dbContext.SaveChanges();
         }
 
         private ShortenUser MapUser(Mozgoeb mozgoeb)
