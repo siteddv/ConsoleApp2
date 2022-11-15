@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace StudentManager.Backend.Entities
 {
-    public class BaseEntity
+    public class BaseEntity<T>
     {
         public BaseEntity()
         {
 
         }
-        public int Id { get; set; }
+        public T Id { get; set; }
         public string Name { get; set; }
     }
 }

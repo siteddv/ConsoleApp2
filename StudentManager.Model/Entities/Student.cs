@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace StudentManager.Backend.Entiries
 {
-    public class Student : BaseEntity
+    public class Student : BaseEntity<int>
     {
         public int Age { get; set; }
         public virtual List<StudentsSkills> StudentsSkills { get; set; }

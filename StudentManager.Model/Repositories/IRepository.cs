@@ -2,7 +2,7 @@
 
 namespace StudentManager.Backend.Repositories;
 
-public interface IRepository<T> where T : BaseEntity
+public interface IRepository<T> where T : BaseEntity<string>, BaseEntity<int>
 {
     public T Create(T entity);
     public List<T> ReadAll();

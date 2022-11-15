@@ -3,7 +3,7 @@ using StudentManager.Backend.Entities;
 
 namespace StudentManager.Backend.Repositories
 {
-    public class DbRepository<T> : IRepository<T> where T : BaseEntity 
+    public class DbRepository<T> : IRepository<T> where T : BaseEntity<string>, BaseEntity<int>
     {
         protected readonly AppDbContext Ctx;
 

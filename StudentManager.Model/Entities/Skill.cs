@@ -2,7 +2,7 @@
 
 namespace StudentManager.Backend.Entities
 {
-    public class Skill : BaseEntity
+    public class Skill : BaseEntity<int>
     {
         public Skill()
         {

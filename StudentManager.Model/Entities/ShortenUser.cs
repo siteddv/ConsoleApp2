@@ -1,8 +1,7 @@
 ﻿namespace StudentManager.Backend.Entities
 {
-    public class ShortenUser
+    public class ShortenUser : BaseEntity<string>
     {
-        public string Id { get; set; }
         public string Nickname { get; set; }
     }
 }
