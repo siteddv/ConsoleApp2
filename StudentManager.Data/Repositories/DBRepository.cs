@@ -1,9 +1,8 @@
 ﻿using StudentManager.Backend.Contexts;
-using StudentManager.Backend.Entities;
 
-namespace StudentManager.Backend.Repositories
+namespace StudentManager.Data.Repositories
 {
-    public class DbRepository<T> : IRepository<T> where T : BaseEntity<string>, BaseEntity<int>
+    public class DbRepository<T> : IRepository<T> where T : BaseEntity<int>
     {
         protected readonly AppDbContext Ctx;
 
