@@ -27,6 +27,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\StudentManager.Data\StudentManager.Data.csproj" />
+    <ProjectReference Include="..\StudentManager.Infrastructure\StudentManager.Infrastructure.csproj" />
     <ProjectReference Include="..\StudentManager.Model\StudentManager.Model.csproj" />
   </ItemGroup>
 

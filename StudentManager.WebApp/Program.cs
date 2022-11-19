@@ -4,11 +4,19 @@ using Microsoft.AspNetCore.Identity;
 using StudentManager.WebApp.Areas.Identity.Data;
 using StudentManager.WebApp.Controllers;
 using StudentManager.WebApp.Areas;
+using StudentManager.Backend.Repositories;
+using StudentManager.Data.Repositories;
+using StudentManager.Backend.Entiries;
+using StudentManager.Infrastructure.Managers.Interfaces;
+using StudentManager.Infrastructure.Managers.Implemetations;
+using StudentManager.Helpers;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("IdentityContextConnection") ?? throw new InvalidOperationException("Connection string 'IdentityContextConnection' not found.");
 
 // Add services to the container.
+builder.Services.AddTransient<IRepository<Student, Wrapper<int>>, DbRepository<Student, Wrapper<int>>>();
+builder.Services.AddTransient<IStudentsManager, StudentsManager>();
 builder.Services.AddTransient<IShortedUserController, ShortenUserController>();
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<AppDbContext>(ctx => ctx.UseLazyLoadingProxies());

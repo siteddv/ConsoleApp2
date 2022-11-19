@@ -2,22 +2,27 @@
 using Microsoft.EntityFrameworkCore;
 using StudentManager.Backend.Contexts;
 using StudentManager.Backend.Entiries;
+using StudentManager.Infrastructure.Managers.Implemetations;
 
 namespace StudentManager.WebApp.Controllers
 {
     public class StudentsController : Controller
     {
         private readonly AppDbContext _context;
+        private readonly StudentsManager _studentsManager;
 
-        public StudentsController(AppDbContext context)
+        public StudentsController(AppDbContext context,
+            StudentsManager studentsManager)
         {
+            _studentsManager = studentsManager;
             _context = context;
         }
 
         // GET: Students
         public async Task<IActionResult> Index()
         {
-              return View(await _context.Students.ToListAsync());
+            List<Student> students = _studentsManager.GetAllStudents();
+            return View(students);
         }
 
         // GET: Students/Details/5

@@ -1,5 +1,5 @@
 ﻿using StudentManager.Backend.Contexts;
-using StudentManager.Backend.Entities;
+using StudentManager.Backend.Identity;
 using StudentManager.WebApp.Areas;
 using StudentManager.WebApp.Areas.Identity.Data;
 

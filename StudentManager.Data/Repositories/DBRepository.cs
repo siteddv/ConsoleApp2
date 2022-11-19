@@ -1,9 +1,16 @@
 ﻿using StudentManager.Backend.Contexts;
+using StudentManager.Backend.Entities;
+using StudentManager.Backend.Repositories;
+using StudentManager.Helpers;
 
 namespace StudentManager.Data.Repositories
 {
-    public class DbRepository<T> : IRepository<T> where T : BaseEntity<int>
+    public class DbRepository<T, TId> : IRepository<T, TId>
+        where T : BaseEntity<TId>
+        where TId : Wrapper<int>
     {
+        private TId _Value;
+
         protected readonly AppDbContext Ctx;
 
         public DbRepository(AppDbContext ctx)
@@ -26,7 +33,7 @@ namespace StudentManager.Data.Repositories
             return list;
         }
 
-        public T ReadById(int id)
+        public T ReadById(TId id)
         {
             var entity = Ctx.Set<T>().FirstOrDefault(en => en.Id == id);
             return entity;
@@ -47,12 +54,15 @@ namespace StudentManager.Data.Repositories
             Ctx.SaveChanges();
         }
 
-        public void DeleteById(int id)
+        public void DeleteById(TId id)
         {
             var entity = ReadById(id);
             Ctx.Set<T>().Remove(entity);
 
             Ctx.SaveChanges();
         }
+
+
+
     }
 }
