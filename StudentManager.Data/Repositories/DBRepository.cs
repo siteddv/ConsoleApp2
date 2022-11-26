@@ -1,16 +1,12 @@
 ﻿using StudentManager.Backend.Contexts;
 using StudentManager.Backend.Entities;
 using StudentManager.Backend.Repositories;
-using StudentManager.Helpers;
 
 namespace StudentManager.Data.Repositories
 {
     public class DbRepository<T, TId> : IRepository<T, TId>
         where T : BaseEntity<TId>
-        where TId : Wrapper<int>
     {
-        private TId _Value;
-
         protected readonly AppDbContext Ctx;
 
         public DbRepository(AppDbContext ctx)
@@ -35,7 +31,7 @@ namespace StudentManager.Data.Repositories
 
         public T ReadById(TId id)
         {
-            var entity = Ctx.Set<T>().FirstOrDefault(en => en.Id == id);
+            var entity = Ctx.Set<T>().FirstOrDefault(en => en.Id.Equals(id));
             return entity;
         }
 

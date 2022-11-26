@@ -5,5 +5,6 @@ namespace StudentManager.Backend.Identity
     public class ShortenUser : BaseEntity<string>
     {
         public string Nickname { get; set; }
+        public double Weight { get; set; }
     }
 }

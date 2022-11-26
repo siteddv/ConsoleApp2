@@ -78,6 +78,10 @@ namespace StudentManager.WebApp.Areas.Identity.Pages.Account
             [Display(Name = "Email")]
             public string Email { get; set; }
 
+            [Required]
+            [Display(Name = "Weight")]
+            public double Weight { get; set; }
+
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
@@ -119,7 +123,7 @@ namespace StudentManager.WebApp.Areas.Identity.Pages.Account
 
                 if (result.Succeeded)
                 {
-                    _shortedUserController.AddUser(user);
+                    _shortedUserController.AddUser(user, Input.Weight);
 
                     var userId = await _userManager.GetUserIdAsync(user);
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);

@@ -10,4 +10,3 @@ namespace StudentManager.WebApp.Areas.Identity.Data;
 public class Mozgoeb : IdentityUser
 {
 }
-
