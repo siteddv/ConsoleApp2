@@ -16,6 +16,11 @@ namespace StudentManager.Data.Repositories
 
         public T Create(T entity)
         {
+            if(Ctx.Set<T>() == null)
+            {
+                return null;
+            }
+
             var a = Ctx.Set<T>().Add(entity);
             Ctx.SaveChanges();
 
@@ -24,6 +29,11 @@ namespace StudentManager.Data.Repositories
 
         public List<T> ReadAll()
         {
+            if (Ctx.Set<T>() == null)
+            {
+                return null;
+            }
+
             var list = Ctx.Set<T>().ToList();
 
             return list;
@@ -31,34 +41,55 @@ namespace StudentManager.Data.Repositories
 
         public T ReadById(TId id)
         {
+            if (Ctx.Set<T>() == null)
+            {
+                return null;
+            }
+
             var entity = Ctx.Set<T>().FirstOrDefault(en => en.Id.Equals(id));
             return entity;
         }
 
         public T Update(T entity)
         {
+            if (Ctx.Set<T>() == null)
+            {
+                return null;
+            }
+
             var a = Ctx.Set<T>().Update(entity);
             Ctx.SaveChanges();
 
             return a.Entity;
         }
 
-        public void Delete(T entity)
+        public T Delete(T entity)
         {
+            if (Ctx.Set<T>() == null)
+            {
+                return null;
+            }
+
             Ctx.Set<T>().Remove(entity);
 
             Ctx.SaveChanges();
+
+            return entity;
         }
 
-        public void DeleteById(TId id)
+        public T DeleteById(TId id)
         {
             var entity = ReadById(id);
             Ctx.Set<T>().Remove(entity);
 
             Ctx.SaveChanges();
+
+            return entity;
         }
 
-
-
+        public bool IsExists(TId id)
+        {
+            return Ctx.Set<T>().Any(entity => entity.Id.Equals(id));
+        }
     }
 }

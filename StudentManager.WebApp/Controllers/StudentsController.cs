@@ -3,40 +3,38 @@ using Microsoft.EntityFrameworkCore;
 using StudentManager.Backend.Contexts;
 using StudentManager.Backend.Entiries;
 using StudentManager.Infrastructure.Managers.Implemetations;
+using StudentManager.Infrastructure.Managers.Interfaces;
 
 namespace StudentManager.WebApp.Controllers
 {
     public class StudentsController : Controller
     {
-        private readonly AppDbContext _context;
-        private readonly StudentsManager _studentsManager;
+        private readonly IStudentsManager _studentsManager;
 
-        public StudentsController(AppDbContext context,
-            StudentsManager studentsManager)
+        public StudentsController(IStudentsManager studentsManager)
         {
             _studentsManager = studentsManager;
-            _context = context;
         }
 
         // GET: Students
         public async Task<IActionResult> Index()
         {
-            List<Student> students = _studentsManager.GetAllStudents();
+            List<Student> students = _studentsManager.GetAll();
+
+            if(students == null) 
+            { 
+                return NotFound(); 
+            }
+
             return View(students);
         }
 
         // GET: Students/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Students == null)
-            {
-                return NotFound();
-            }
+            Student student = _studentsManager.GetById(id);
 
-            var student = await _context.Students
-                .FirstOrDefaultAsync(m => m.Id == id);
-            var skills = student.GetSkills();
-            if (student == null)
+            if(student == null)
             {
                 return NotFound();
             }
@@ -59,8 +57,7 @@ namespace StudentManager.WebApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(student);
-                await _context.SaveChangesAsync();
+                _studentsManager.Add(student);
                 return RedirectToAction(nameof(Index));
             }
             return View(student);
@@ -69,16 +66,13 @@ namespace StudentManager.WebApp.Controllers
         // GET: Students/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Students == null)
+            var student = _studentsManager.GetById(id);
+
+            if(student == null)
             {
                 return NotFound();
             }
 
-            var student = await _context.Students.FindAsync(id);
-            if (student == null)
-            {
-                return NotFound();
-            }
             return View(student);
         }
 
@@ -96,38 +90,23 @@ namespace StudentManager.WebApp.Controllers
 
             if (ModelState.IsValid)
             {
-                try
+                student = _studentsManager.Update(id, student);
+                if (student == null)
                 {
-                    _context.Update(student);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!StudentExists(student.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    return NotFound();
                 }
                 return RedirectToAction(nameof(Index));
             }
+
             return View(student);
         }
 
         // GET: Students/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Students == null)
-            {
-                return NotFound();
-            }
+            Student student = _studentsManager.GetById(id);
 
-            var student = await _context.Students
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (student == null)
+            if(student == null)
             {
                 return NotFound();
             }
@@ -140,23 +119,13 @@ namespace StudentManager.WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Students == null)
+            var student = _studentsManager.Delete(id);
+            if(student == null)
             {
                 return Problem("Entity set 'AppDbContext.Students'  is null.");
             }
-            var student = await _context.Students.FindAsync(id);
-            if (student != null)
-            {
-                _context.Students.Remove(student);
-            }
             
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool StudentExists(int id)
-        {
-          return _context.Students.Any(e => e.Id == id);
         }
     }
 }
